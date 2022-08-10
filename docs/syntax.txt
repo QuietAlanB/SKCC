@@ -1,0 +1,120 @@
+# THIS FILE ASSUMES YOU KNOW BASIC -> SOMEWHAT INTERMEDIATE PROGRAMMING TERMS
+# this is a comment
+
+# =======================================================================
+
+# variables are defined as: <global/local> <type> <name> = <value>;
+# you can define lists as: <global/local> list<<type>> <name> = {elements};
+# primitive types are:
+        # int
+        # float
+        # bool
+        # string
+        # location
+        # vector
+        
+global int var1;
+local bool var2 = true;
+global list<float> floatList = { 5.5, 3.14159, 0.14 };
+
+# =======================================================================
+
+# commands are things players can execute in game by typing /<commandname>
+# commands can have arguments
+# some of the options you can set for commands are (all of these are optional):
+        # alias = this is a list of sub commands which can be used to execute this command, just written in a different way
+        # usage = this is the message sent to the player when they use incorrect arguments or dont include arguments
+        # perm = this is a name of a permission, people with this permission can use this command
+        # permmsg = this is the message sent to the player when they do not have permission to execute the command
+        # cooldown = this is the time the player needs to wait before executing this command again
+        # cooldownmsg = this is the message sent to the player when they still have a cooldown active
+
+# command definitions are structured like this
+command commandName(args) : options {
+        # code
+}
+
+# a basic command which will send a message to everyone in the server
+command broadcast(string message) : alias = ["bc"], perm = "op", cooldown = 5 {
+        send(%message%, all);
+}
+
+# =======================================================================
+
+# functions have a name, parameters, and a return type
+# a function is defined as:
+        # function type funcName(args) {}
+
+# this is a function which will take 2 numbers and send their result to everyone in the server
+function void addSend(float a, float b) {
+        local int sum = a + b;
+        send("%sum%", all);
+}
+
+# =======================================================================
+
+# data structures are implemented by the compiler by changing variable names
+# data structures are formatted like:
+        struct structName {
+                vars;
+        }
+
+# here is a simple data structure
+struct Bullet {
+        location pos;
+        vector velocity;
+}
+
+# defining 2 structures and then sending their positions
+local Bullet bullet1 = {};
+local Bullet bullet2;
+bullet2.pos = (0, 0, 0)
+
+send("%bullet1.pos%", all)
+send("%bullet2.pos%", all)
+
+# =======================================================================
+
+# inline skript is a way to use skript code in your code
+# it can only be used locally (inside of functions, events, etc.) to not mess up any compiler variables
+# this should only be used for very specific circumstances
+
+# here is an example of adding 2 variables in skript using inline skript
+function void inlineTest() {
+        inline(
+                "set {_a} to 1\n"
+                "set {_b} to 2\n"
+                "set {_sum} to {_a} + {_b}\n"
+                "send \"%{_sum}%\" to all players\n"
+        );
+}
+
+# =======================================================================
+
+# different compilers can have their own extensions and must be disabled unless enabled explicitly
+# if an invalid or unrecognized extension is enabled, the compiler will raise an error
+# extensions must be in global scope
+# this enables the extension "comp_ext_name"
+@extension "comp_ext_name"
+
+# you can also include files in your code
+# this will copy all the content from the file specified into this file
+# these must also be global
+@include "file.skt"
+
+# =======================================================================
+
+# there are 2 loops: while loops and for loops
+# for loops are written as: for (initialization; condition; increment) {}
+# (initialization variable must be defined before using it)
+local int i;
+for (i = 0; i <= 10; ++i) {
+        send("%i% for loop", all);
+}
+
+# while loops are written as: while (condition) {}
+i = 0;
+while (i <= 5) {
+        send ("%i% while loop", all);
+        ++i;
+}
