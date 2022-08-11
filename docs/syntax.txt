@@ -5,13 +5,14 @@
 
 # variables are defined as: <global/local> <type> <name> = <value>;
 # you can define lists as: <global/local> list<<type>> <name> = {elements};
-# primitive types are:
-        # int
-        # float
-        # bool
-        # string
-        # location
-        # vector
+# NOTE: sometimes vectors and locations can be written the same, but this depends
+# primitive types are (examples are written in parentheses after):
+        # int (0, 5, -2)
+        # float (0.5, 22.2, -3.14159)
+        # bool (true, false)
+        # string ("hi", "h", "yo whats up!!")
+        # location ((5.9, -5, 3.5, "world"))
+        # vector ((5, 5, 3), (-3.3, 22, 3.1))
         
 global int var1;
 local bool var2 = true;
@@ -36,14 +37,14 @@ command commandName(args) : options {
 
 # a basic command which will send a message to everyone in the server
 command broadcast(string message) : alias = ["bc"], perm = "op", cooldown = 5 {
-        send(%message%, all);
+        send("%message%", all);
 }
 
 # =======================================================================
 
 # functions have a name, parameters, and a return type
 # a function is defined as:
-        # function type funcName(args) {}
+        # function type funcName(args) { code; }
 
 # this is a function which will take 2 numbers and send their result to everyone in the server
 function void addSend(float a, float b) {
